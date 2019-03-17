@@ -6,13 +6,13 @@
 int is_simple(const int n)
 {
 
-	if (n==1)
+	if (n == 1){
 		return 0;
-
-		for(int i=2;i*i<=n;i++)
-			if (n%i==0)
-				return 0;
-
+	}
+	for(int i = 2;i*i <= n;i++){
+		if (n % i == 0)
+			return 0;
+	}
 	return 1;
 }
 
@@ -22,18 +22,18 @@ int is_simple(const int n)
 int find_first(const int * arr,const int start,const int end,const int val)
 {
 
-	if ((start==end-1)&&(arr[start]!=val))
+	if ((start == end-1) && (arr[start] != val))
 		return -1;
 
-	if (arr[(start+end)/2]>val)
+	if (arr[(start+end)/2] > val)
 		return find_first(arr,start,(start+end)/2,val);
 
-	if (arr[(start+end)/2]<val)
+	if (arr[(start+end)/2] < val)
 		return find_first(arr,(start+end)/2,end,val);
 
-	if (arr[(start+end)/2]==val){
+	if (arr[(start+end)/2] == val){
 		int i;
-		for (i=(start+end)/2;i>start && (arr[i-1]==val);--i){}
+		for (i=(start+end)/2;(i > start) && (arr[i-1] == val);--i){}
 		return i;
 
 	}
@@ -57,7 +57,7 @@ int find_last(const int * arr,const int start, const int end, const int val)
 
 	if (arr[(start+end)/2] == val){
 		int i;
-		for (i=(start+end)/2;(i<end) && (arr[i+1]==val);++i){}
+		for (i = (start + end)/2;(i < end) && (arr[i+1] == val);++i){}
 		return i;
 
 	}
@@ -76,8 +76,8 @@ int count_simple(const int * arr,const int size,const int start,const int end)
 	if ((first_pos == -1) || (last_pos == -1))
 		return 0;
 
-	for (int i = first_pos;i<=last_pos;i++)
-		total+=is_simple(arr[i]);
+	for (int i = first_pos;i <= last_pos;i++)
+		total += is_simple(arr[i]);
 
 	return total;
 }
@@ -88,11 +88,11 @@ int main(int argc, char * argv[])
 
 	int start,end;
 
-	if (((argc-1)%2!=0) || (argc<=1)){
+	if (((argc-1) % 2 != 0) || (argc <= 1)){
 		return -1;
 
 	}
-	for (int i=1;i<argc;i+=2){
+	for (int i=1;i < argc;i += 2){
 		start=atoi(argv[i]);
 		end=atoi(argv[i+1]);
 		std::cout<<count_simple(Data,Size,start,end)<<'\n';
