@@ -14,7 +14,7 @@ typedef enum {PLUS,MINUS,MUL,DIV} Ops;
 //write numbers in string in deque string_numbers
 //write operations in string in deque string_operations
 
-void get_lexems(const char * str, deque<int>& string_numbers,\
+void get_lexems(const char * str, deque<int>& string_numbers,
 			deque<Ops>& string_operations,bool& iserror)
 
 {
