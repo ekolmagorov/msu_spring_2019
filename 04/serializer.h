@@ -31,37 +31,21 @@ public:
 
 private:
 
-	template<class T>
-	Error process(T&& val){
-
-		if (std::is_same<decltype(val), bool&>::value){
-			if (val==true)
-				ss << "true";
-			else
-				ss << "false";
-		}
-		else if (std::is_same<decltype(val), uint64_t&>::value){
-			ss << val;
-		}
-		else{
-	
-			return Error::CorruptedArchive;
-		}
-		
-		return Error::NoError;
-	}
+	Error process(){return Error::NoError;}
 
 	template<class T, class ... ArgsT>
 	Error process(T&& val, ArgsT&&... args){
 
-		if (std::is_same<decltype(val), bool&>::value){
+		if (std::is_same<bool,typename\
+			 std::remove_reference<decltype(val)>::type>::value){
 
 			if (val==true)
 				ss << "true" << Separator;
 			else
 				ss << "false" << Separator;
 		}
-		else if (std::is_same<decltype(val), uint64_t&>::value){
+		else if (std::is_same<uint64_t, typename\
+			 std::remove_reference<decltype(val)>::type>::value){
 			ss << val << Separator;
 		}
 		else{
@@ -101,7 +85,8 @@ private:
 		std::string s;
 		ss >> s;
 
-		if (std::is_same<decltype(arg), bool&>::value){
+		if (std::is_same<bool, typename\
+			 std::remove_reference<decltype(arg)>::type>::value){
 
 			if (s == "true"){
 				arg = true;
@@ -113,7 +98,8 @@ private:
 				return Error::CorruptedArchive;
 		}
 
-		else if (std::is_same<decltype(arg),uint64_t&>::value){
+		else if (std::is_same<uint64_t, typename\
+			 std::remove_reference<decltype(arg)>::type>::value){
 
 			if (s[0] == '-'){
 				return Error::CorruptedArchive;
