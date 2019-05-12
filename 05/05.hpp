@@ -2,38 +2,44 @@
 #include <mutex>
 #include <thread>
 
-const static unsigned int N = 10;
 
-std::mutex m1;
-std::mutex m2;
+
+using namespace std;
+
+const static size_t N = 10;
+
+mutex m1;
+mutex m2;
 
 void ping()
 {
-    for(size_t i = 0; i < N; i++)
-    {
-        m2.lock();
-        std::cout<<"ping"<<std::endl;
-        m1.unlock();
+    for(size_t i = 0; i < N; i++){
+        m1.lock();
+        cout<<"ping"<<endl<<flush;
+        m2.unlock();
     }
 }
 
 void pong()
 {
-    for(size_t i = 0; i < N; i++)
-    {
-        m1.lock();
-        std::cout<<"pong"<<std::endl;
-        m2.unlock();
+    for(size_t i = 0; i < N; i++){
+        m2.lock();
+        cout<<"pong"<<endl<<flush;
+        m1.unlock();
     }
 }
 
 int main()
 {
-    std::thread th1(ping);
-    std::thread th2(pong);
-    m1.unlock();
-    m2.unlock();
+
+    thread th1(ping);
+    thread th2(pong);
+
+    m2.lock();
+
+
     th1.join();
     th2.join();
+
     return 0;
 }
