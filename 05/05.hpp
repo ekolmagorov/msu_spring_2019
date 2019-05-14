@@ -2,8 +2,6 @@
 #include <mutex>
 #include <thread>
 
-
-
 using namespace std;
 
 const static size_t N = 10;
@@ -32,11 +30,9 @@ void pong()
 int main()
 {
 
+	m2.lock();
     thread th1(ping);
     thread th2(pong);
-
-    m2.lock();
-
 
     th1.join();
     th2.join();
