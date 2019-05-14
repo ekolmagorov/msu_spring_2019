@@ -29,8 +29,7 @@ void pong()
 
 int main()
 {
-
-	m2.lock();
+    m2.lock();
     thread th1(ping);
     thread th2(pong);
 
