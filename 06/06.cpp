@@ -226,7 +226,7 @@ void sort_file(const char * SrcFile, const char* DstFile)
 	src.open(SrcFile, fstream::binary | fstream::in);
 
 	if (!src.is_open())
-		throw runtime_error("Could not open source file");
+		throw runtime_error("I/O error: Could not open source file");
 	
 	src.seekg(0,src.end);
 	size_t lenght = src.tellg();
@@ -239,14 +239,14 @@ void sort_file(const char * SrcFile, const char* DstFile)
 	tmp_first.close();
 	tmp_first.open("first", ios::binary | ios::in | ios::out);
 	if (!tmp_first.is_open())
-		throw runtime_error("Could not open destination file");
+		throw runtime_error("I/O error: Could not open destination file");
 	
 	fstream tmp_second;
 	tmp_second.open("second", ios::out);
 	tmp_second.close();
 	tmp_second.open("second", ios::binary | ios::in | ios::out);
 	if (!tmp_second.is_open())
-		throw runtime_error("Could not open destination file");
+		throw runtime_error("I/O error: Could not open destination file");
 	
 	filemutex.unlock();
 
@@ -309,8 +309,12 @@ int main(void)
 {
 	const char *in_file = "test";
 	const char *result_file = "result";
-
-	sort_file(in_file,result_file);
+	try{
+		sort_file(in_file,result_file);
+	}
+	catch(const runtime_error &error){
+		std::cout << error.what() << std::endl;
+	}
 	output_file(result_file);
 	return 0;
 }
