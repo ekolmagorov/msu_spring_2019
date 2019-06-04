@@ -55,11 +55,15 @@ void output_file(const char * filename)
 {
 	fstream file;
 	file.open(filename, fstream::in);
+	if (!file.is_open())
+		throw runtime_error("I/O error: Could not open output file");
+
 	uint64_t val;
 	file.seekg(0,file.beg);
 	size_t lenght = getFileLenght(file);
 
-	while (static_cast<size_t>(file.tellg()) < lenght){
+	while ((file.tellg() >= 0) && 
+		(static_cast<size_t>(file.tellg()) < lenght)){
 
 		file.read(reinterpret_cast<char*>(&val),sizeof(uint64_t));
 		cout << val <<  endl;
@@ -311,10 +315,11 @@ int main(void)
 	const char *result_file = "result";
 	try{
 		sort_file(in_file,result_file);
+		output_file(result_file);
 	}
 	catch(const runtime_error &error){
 		std::cout << error.what() << std::endl;
 	}
-	output_file(result_file);
+
 	return 0;
 }
